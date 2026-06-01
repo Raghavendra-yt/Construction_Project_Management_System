@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ConstructPro — Project Management System</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="2" y="14" width="10" height="12" rx="1" fill="#F97316"/>
+        <rect x="16" y="8" width="10" height="18" rx="1" fill="#F97316" opacity=".7"/>
+        <rect x="2" y="2" width="10" height="10" rx="1" fill="#F97316" opacity=".5"/>
+        <line x1="0" y1="26" x2="28" y2="26" stroke="#F97316" stroke-width="2"/>
+      </svg>
+    </div>
+    <span class="logo-text">ConstructPro</span>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" data-page="dashboard">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" data-page="projects">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      <span>Projects</span>
+      <span class="nav-badge" id="projectsBadge">0</span>
+    </a>
+    <a href="#" class="nav-item" data-page="locations">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Site Locations</span>
+    </a>
+    <a href="#" class="nav-item" data-page="staff">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Staff</span>
+    </a>
+    <a href="#" class="nav-item" data-page="stages">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span>Project Stages</span>
+    </a>
+    <a href="#" class="nav-item" data-page="deadlines">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Deadlines</span>
+    </a>
+    <a href="#" class="nav-item" data-page="reports">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Reports</span>
+    </a>
+    <a href="#" class="nav-item" data-page="settings">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Settings</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-avatar" id="sidebarUserAvatar">CM</div>
+    <div class="user-info">
+      <div class="user-name" id="sidebarUserName">Construction Manager</div>
+      <div class="user-role">Admin</div>
+    </div>
+  </div>
+</aside>
+
+<!-- OVERLAY for mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrapper" id="mainWrapper">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="globalSearch" placeholder="Search projects, staff, tasks…" />
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-date" id="topbarDate"></div>
+      <button class="notif-btn" id="notifBtn" aria-label="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-badge" id="notifBadge">0</span>
+      </button>
+      <div class="topbar-avatar" id="topbarAvatar">CM</div>
+    </div>
+  </header>
+
+  <!-- NOTIFICATION PANEL -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-header">
+      <span>Notifications</span>
+      <button class="notif-clear" id="notifClear">Clear all</button>
+    </div>
+    <div class="notif-list" id="notifList"></div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content" id="pageContent">
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <section class="page" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Welcome back — here's your project overview</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('addProjectModal')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Project
+        </button>
+      </div>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card" data-color="primary">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-label">Total Projects</div>
+          </div>
+          <div class="stat-trend up">↑ 3 this month</div>
+        </div>
+        <div class="stat-card" data-color="success">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statActive">0</div>
+            <div class="stat-label">Active Projects</div>
+          </div>
+          <div class="stat-trend up">↑ 2 this week</div>
+        </div>
+        <div class="stat-card" data-color="warning">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statCompleted">0</div>
+            <div class="stat-label">Completed</div>
+          </div>
+          <div class="stat-trend neutral">All on schedule</div>
+        </div>
+        <div class="stat-card" data-color="danger">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statDelayed">0</div>
+            <div class="stat-label">Delayed</div>
+          </div>
+          <div class="stat-trend down">Needs attention</div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Project Status Distribution</h3>
+            <span class="chart-period">All Time</span>
+          </div>
+          <div class="chart-container" style="height:260px;">
+            <canvas id="statusChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card wide">
+          <div class="chart-header">
+            <h3>Monthly Progress Overview</h3>
+            <span class="chart-period">Last 6 Months</span>
+          </div>
+          <div class="chart-container" style="height:260px;">
+            <canvas id="progressChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-section">
+        <div class="section-header">
+          <h3>Recent Projects</h3>
+          <a href="#" class="view-all" data-page="projects">View All →</a>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="recentProjectsTable">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Client</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>End Date</th>
+              </tr>
+            </thead>
+            <tbody id="recentProjectsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS PAGE ===== -->
+    <section class="page hidden" id="page-projects">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Projects</h1>
+          <p class="page-subtitle">Manage all your construction projects</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('addProjectModal')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Project
+        </button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="projectSearch" placeholder="Search projects…" oninput="filterProjects()" />
+        </div>
+        <select class="filter-select" id="statusFilter" onchange="filterProjects()">
+          <option value="">All Status</option>
+          <option value="Planning">Planning</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Delayed">Delayed</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <select class="filter-select" id="typeFilter" onchange="filterProjects()">
+          <option value="">All Types</option>
+          <option value="Residential">Residential</option>
+          <option value="Commercial">Commercial</option>
+          <option value="Industrial">Industrial</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="projectsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Project Name</th>
+              <th>Client</th>
+              <th>Location</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Budget</th>
+              <th>Progress</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="projectsTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== LOCATIONS PAGE ===== -->
+    <section class="page hidden" id="page-locations">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Site Locations</h1>
+          <p class="page-subtitle">Track all active construction sites</p>
+        </div>
+      </div>
+      <div class="sites-grid" id="sitesGrid"></div>
+    </section>
+
+    <!-- ===== STAFF PAGE ===== -->
+    <section class="page hidden" id="page-staff">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Staff Management</h1>
+          <p class="page-subtitle">Manage your construction team</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('addStaffModal')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Employee
+        </button>
+      </div>
+      <div class="filter-bar">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="staffSearch" placeholder="Search employees…" oninput="filterStaff()" />
+        </div>
+        <select class="filter-select" id="staffRoleFilter" onchange="filterStaff()">
+          <option value="">All Roles</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Site Engineer">Site Engineer</option>
+          <option value="Civil Engineer">Civil Engineer</option>
+          <option value="Architect">Architect</option>
+          <option value="Supervisor">Supervisor</option>
+          <option value="Worker">Worker</option>
+        </select>
+        <select class="filter-select" id="staffStatusFilter" onchange="filterStaff()">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="On Leave">On Leave</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Project</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="staffTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== STAGES PAGE ===== -->
+    <section class="page hidden" id="page-stages">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Project Stages</h1>
+          <p class="page-subtitle">Track construction progress by stage</p>
+        </div>
+        <select class="filter-select" id="stageProjectFilter" onchange="renderStages()">
+          <option value="">Select Project</option>
+        </select>
+      </div>
+      <div id="stagesContent">
+        <div class="empty-state">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <p>Select a project to view its stages</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DEADLINES PAGE ===== -->
+    <section class="page hidden" id="page-deadlines">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Deadlines</h1>
+          <p class="page-subtitle">Track all upcoming tasks and deadlines</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('addDeadlineModal')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Task
+        </button>
+      </div>
+      <div class="deadlines-grid" id="deadlinesGrid"></div>
+    </section>
+
+    <!-- ===== REPORTS PAGE ===== -->
+    <section class="page hidden" id="page-reports">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Reports</h1>
+          <p class="page-subtitle">Analytics and exportable project data</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="exportCSV()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export CSV
+          </button>
+          <button class="btn btn-primary" onclick="exportPDF()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Export PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="reports-summary" id="reportsSummary"></div>
+
+      <div class="report-section">
+        <h3 class="section-title">Project Summary Report</h3>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Project Name</th>
+                <th>Type</th>
+                <th>Completion</th>
+                <th>Budget</th>
+                <th>Status</th>
+                <th>Client</th>
+              </tr>
+            </thead>
+            <tbody id="reportProjectsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3 class="section-title">Staff Report</h3>
+        <div id="staffReportCards"></div>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS PAGE ===== -->
+    <section class="page hidden" id="page-settings">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-subtitle">Configure your workspace preferences</p>
+        </div>
+      </div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3 class="settings-group-title">Company Information</h3>
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-input" id="settCompanyName" placeholder="Your Company Name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company Logo URL</label>
+            <input type="text" class="form-input" id="settLogoUrl" placeholder="https://..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Admin Name</label>
+            <input type="text" class="form-input" id="settAdminName" placeholder="Your Name" />
+          </div>
+          <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+        </div>
+        <div class="settings-card">
+          <h3 class="settings-group-title">Appearance</h3>
+          <div class="theme-options">
+            <button class="theme-btn active" id="themeDark" onclick="setTheme('dark')">
+              <div class="theme-preview dark-preview"></div>
+              <span>Dark Mode</span>
+            </button>
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')">
+              <div class="theme-preview light-preview"></div>
+              <span>Light Mode</span>
+            </button>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h3 class="settings-group-title">Data Management</h3>
+          <p class="settings-desc">All data is stored locally in your browser using LocalStorage.</p>
+          <button class="btn btn-outline" onclick="resetData()">Reset Demo Data</button>
+          <button class="btn btn-danger" onclick="clearAllData()" style="margin-top:8px;">Clear All Data</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECT DETAIL PAGE ===== -->
+    <section class="page hidden" id="page-detail">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-ghost" onclick="navigateTo('projects')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </button>
+          <div>
+            <h1 class="page-title" id="detailProjectName">Project Detail</h1>
+            <p class="page-subtitle" id="detailProjectClient"></p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" id="detailEditBtn">Edit Project</button>
+        </div>
+      </div>
+      <div id="detailContent"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- =================== MODALS =================== -->
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay hidden" id="addProjectModal">
+  <div class="modal large">
+    <div class="modal-header">
+      <h2 id="projectModalTitle">Add New Project</h2>
+      <button class="modal-close" onclick="closeModal('addProjectModal')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="projectEditId" />
+      <div class="form-section-title">Basic Information</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Project Name *</label>
+          <input type="text" class="form-input" id="projName" placeholder="e.g. Downtown Tower Block" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Client Name *</label>
+          <input type="text" class="form-input" id="projClient" placeholder="e.g. Apex Corp" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Project Type</label>
+          <select class="form-input" id="projType">
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Industrial">Industrial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-input" id="projStatus">
+            <option value="Planning">Planning</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Delayed">Delayed</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-title">Site Information</div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">Address</label>
+          <input type="text" class="form-input" id="projAddress" placeholder="Street address" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-input" id="projCity" placeholder="City" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">State</label>
+          <input type="text" class="form-input" id="projState" placeholder="State" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Country</label>
+          <input type="text" class="form-input" id="projCountry" placeholder="Country" />
+        </div>
+      </div>
+
+      <div class="form-section-title">Timeline & Budget</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Start Date</label>
+          <input type="date" class="form-input" id="projStart" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Date</label>
+          <input type="date" class="form-input" id="projEnd" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estimated Budget (₹)</label>
+          <input type="number" class="form-input" id="projBudget" placeholder="5000000" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Progress %</label>
+          <input type="number" class="form-input" id="projProgress" min="0" max="100" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Site Manager</label>
+          <input type="text" class="form-input" id="projManager" placeholder="Manager name" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="projDesc" rows="3" placeholder="Brief project description…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addProjectModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProject()">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD STAFF MODAL -->
+<div class="modal-overlay hidden" id="addStaffModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="staffModalTitle">Add Employee</h2>
+      <button class="modal-close" onclick="closeModal('addStaffModal')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="staffEditId" />
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" class="form-input" id="staffName" placeholder="John Doe" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-input" id="staffRole">
+            <option>Project Manager</option>
+            <option>Site Engineer</option>
+            <option>Civil Engineer</option>
+            <option>Architect</option>
+            <option>Supervisor</option>
+            <option>Worker</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="text" class="form-input" id="staffPhone" placeholder="+91 98765 43210" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="staffEmail" placeholder="john@example.com" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Assigned Project</label>
+          <select class="form-input" id="staffProject">
+            <option value="">— Unassigned —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-input" id="staffStatus">
+            <option>Active</option>
+            <option>On Leave</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addStaffModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveStaff()">Save Employee</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD DEADLINE MODAL -->
+<div class="modal-overlay hidden" id="addDeadlineModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="deadlineModalTitle">Add Task / Deadline</h2>
+      <button class="modal-close" onclick="closeModal('addDeadlineModal')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="deadlineEditId" />
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Project</label>
+          <select class="form-input" id="deadlineProject"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Task Name *</label>
+          <input type="text" class="form-input" id="deadlineTask" placeholder="Task description" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Assigned To</label>
+          <input type="text" class="form-input" id="deadlineAssigned" placeholder="Employee name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Due Date</label>
+          <input type="date" class="form-input" id="deadlineDue" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Priority</label>
+        <select class="form-input" id="deadlinePriority">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addDeadlineModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDeadline()">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="modal-overlay hidden" id="confirmDeleteModal">
+  <div class="modal small">
+    <div class="modal-header">
+      <h2>Confirm Delete</h2>
+      <button class="modal-close" onclick="closeModal('confirmDeleteModal')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p id="deleteConfirmMsg">Are you sure you want to delete this item? This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('confirmDeleteModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
